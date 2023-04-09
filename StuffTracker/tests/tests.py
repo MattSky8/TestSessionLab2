@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from .models import Stuff, MyUser
+from StuffTracker.models import Stuff, MyUser
 
 # Create your tests here.
 """

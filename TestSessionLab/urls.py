@@ -15,7 +15,7 @@ Including another URL conf
 """
 from django.contrib import admin
 from django.urls import path
-from StuffTracker.views import Home, Things
+from StuffTracker import Home, Things
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view()),
