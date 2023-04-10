@@ -30,7 +30,7 @@ class AddItemSimple(TestCase):
                 for resp_item in resp.context["things"]:
                     self.assertIn(resp_item, self.users[user], "extra item in user's list")
 
-# test class for add item criteron 2:
+# test class for add item criterion 2:
 # when an empty string is entered,
 # no item should be added to the user's list or displayed
 class AddItemEmptyString(TestCase):
