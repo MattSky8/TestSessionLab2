@@ -13,7 +13,7 @@ class SuccessfulLogin(TestCase):
     # setup method
     def setUp(self):
         self.monkey = Client()
-        self.users = {"user1": ["item1", "item3"], "user2": ["item2"]}
+        self.users = {"user1": ["item1", "item3"], "user2": ["item2"], "user3": []}
 
         for username in self.users.keys():
             temp_user = MyUser(name=username, password=username)
@@ -53,7 +53,7 @@ class FailedLogin(TestCase):
     # setup method
     def setUp(self):
         self.monkey = Client()
-        self.users = {"user1": ["item1", "item3"], "user2": ["item2"]}
+        self.users = {"user1": ["item1", "item3"], "user2": ["item2"], "user3": []}
 
         for username in self.users.keys():
             temp_user = MyUser(name=username, password=username)
