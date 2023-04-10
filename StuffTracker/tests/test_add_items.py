@@ -22,7 +22,8 @@ class AddItemSimple(TestCase):
             self.monkey.post("/", {"name": user, "password": user}, follow=True)
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
-                self.assertIn(item, resp.context["things"], "item not added to user's list")
+                self.assertIn(item, resp.context["things"],
+                              "item not added to user's list; user: " + user + ", item: " + item)
 
     def test_no_extra_items(self):
         for user in self.users.keys():
@@ -30,7 +31,9 @@ class AddItemSimple(TestCase):
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
                 for resp_item in resp.context["things"]:
-                    self.assertIn(resp_item, self.users[user], "extra item in user's list")
+                    self.assertIn(resp_item, self.users[user],
+                                  "extra item in user's list; user: " + user + ", item: " + resp_item)
+
 
 # test class for add item criterion 2:
 # when an empty string is entered,
@@ -53,7 +56,8 @@ class AddItemEmptyString(TestCase):
         for user in self.users.keys():
             self.monkey.post("/", {"name": user, "password": user}, follow=True)
             resp = self.monkey.post("/things/", {"name": user, "stuff": ""}, follow=True)
-            self.assertNotIn("", resp.context["things"], "empty string item should not be added to user's list")
+            self.assertNotIn("", resp.context["things"],
+                             "empty string item should not be added to user's list; user: " + user)
 
     def test_correct_size(self):
         for user in self.users.keys():
@@ -61,7 +65,9 @@ class AddItemEmptyString(TestCase):
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": ""}, follow=True)
                 for resp_item in resp.context["things"]:
-                    self.assertIn(resp_item, self.users[user], "extra item in user's list")
+                    self.assertIn(resp_item, self.users[user],
+                                  "extra item in user's list; user: " + user + ", item: " + resp_item)
+
 
 # test class for add item criterion 3:
 # when a duplicate item is entered,
@@ -87,4 +93,5 @@ class AddItemDuplicate(TestCase):
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
                 expected_list_size += 1
-                self.assertEqual(expected_list_size, len(resp.context["things"]), "duplicate item not added to list")
+                self.assertEqual(expected_list_size, len(resp.context["things"]),
+                                 "duplicate item not added to list; user: " + user)
