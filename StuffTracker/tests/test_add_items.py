@@ -19,12 +19,14 @@ class AddItemSimple(TestCase):
 
     def test_item_added(self):
         for user in self.users.keys():
+            self.monkey.post("/", {"name": user, "password": user}, follow=True)
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
                 self.assertIn(item, resp.context["things"], "item not added to user's list")
 
     def test_no_extra_items(self):
         for user in self.users.keys():
+            self.monkey.post("/", {"name": user, "password": user}, follow=True)
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
                 for resp_item in resp.context["things"]:
@@ -49,11 +51,13 @@ class AddItemEmptyString(TestCase):
 
     def test_empty_string_not_added(self):
         for user in self.users.keys():
+            self.monkey.post("/", {"name": user, "password": user}, follow=True)
             resp = self.monkey.post("/things/", {"name": user, "stuff": ""}, follow=True)
             self.assertNotIn("", resp.context["things"], "empty string item should not be added to user's list")
 
     def test_correct_size(self):
         for user in self.users.keys():
+            self.monkey.post("/", {"name": user, "password": user}, follow=True)
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": ""}, follow=True)
                 for resp_item in resp.context["things"]:
@@ -78,8 +82,9 @@ class AddItemDuplicate(TestCase):
 
     def test_duplicate_added(self):
         for user in self.users.keys():
+            self.monkey.post("/", {"name": user, "password": user}, follow=True)
             expected_list_size = len(self.users[user])
             for item in self.users[user]:
                 resp = self.monkey.post("/things/", {"name": user, "stuff": item}, follow=True)
-                ++expected_list_size
+                expected_list_size += 1
                 self.assertEqual(expected_list_size, len(resp.context["things"]), "duplicate item not added to list")
